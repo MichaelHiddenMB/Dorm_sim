@@ -1,0 +1,35 @@
+<!DOCTYPE html><html><head>
+<script src="../vendor/ffljs/examples/ffl-emscripten-single-file.cjs"></script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js"}}</script>
+<style>body{margin:0;background:#fff;font:10px sans-serif} .row{display:flex;flex-wrap:wrap;width:900px} .c{width:150px;text-align:center} img{width:150px;height:150px}</style>
+</head><body><div id="out"></div>
+<script type="module">
+import * as THREE from 'three';
+import { FFL, CharModel, getRandomCharInfo, ModelIcon } from '../vendor/ffljs/ffl.js';
+import FFLShaderMaterial from '../vendor/ffljs/materials/FFLShaderMaterial.js';
+THREE.ColorManagement.enabled = false;
+const renderer = new THREE.WebGLRenderer({ alpha: true, preserveDrawingBuffer: true });
+renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
+renderer.setSize(300, 300);
+const ffl = await FFL.initWithResource(fetch('../assets/AFLResHigh_2_3.dat'), globalThis.ModuleFFL);
+ffl.setRenderer(renderer);
+const base = getRandomCharInfo(ffl, 0, 1, 1); for (const [o, v] of JSON.parse(new URLSearchParams(location.search).get("base") || "[]")) new DataView(base.buffer).setInt32(o, v, true);
+const fields = JSON.parse(new URLSearchParams(location.search).get('f'));
+const zoom = new URLSearchParams(location.search).has("zoom");
+const out = document.getElementById('out');
+for (const [name, offset, count] of fields) {
+  const row = document.createElement('div'); row.className = 'row';
+  out.append(Object.assign(document.createElement('h3'), { textContent: name }), row);
+  for (const i of (Array.isArray(count) ? count : [...Array(count).keys()])) {
+    const info = base.slice();
+    new DataView(info.buffer).setInt32(offset, i, true);
+    const m = new CharModel(ffl, info, 0, FFLShaderMaterial, renderer);
+    const scene = new THREE.Scene(); scene.add(m.meshes);
+    const cam = ModelIcon.getCamera(); if (zoom) { cam.zoom = 2.2; cam.position.y -= 3; cam.updateProjectionMatrix(); } renderer.render(scene, cam);
+    const c = document.createElement('div'); c.className = 'c';
+    c.append(Object.assign(document.createElement('img'), { src: renderer.domElement.toDataURL() }), String(i));
+    row.append(c); m.dispose();
+  }
+}
+document.title = 'done';
+</script></body></html>

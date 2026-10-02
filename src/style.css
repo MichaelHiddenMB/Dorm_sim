@@ -1,0 +1,267 @@
+:root {
+	--bg: #f4f6f8;
+	--panel: #ffffff;
+	--text: #1d2329;
+	--muted: #66717c;
+	--border: #dde2e7;
+	--accent: #2f9be0;
+	--accent-text: #ffffff;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	height: 100%;
+	background: var(--bg);
+	color: var(--text);
+	font: 15px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+button {
+	font: inherit;
+	cursor: pointer;
+}
+
+#app {
+	display: flex;
+	height: 100vh;
+}
+
+/* ---------- Editor panel ---------- */
+
+#editor {
+	width: 360px;
+	flex-shrink: 0;
+	display: flex;
+	flex-direction: column;
+	background: var(--panel);
+	border-right: 1px solid var(--border);
+}
+
+#app[data-mode="play"] #editor {
+	display: none;
+}
+
+#editor header {
+	padding: 16px 16px 8px;
+}
+
+h1 {
+	margin: 0 0 12px;
+	font-size: 20px;
+}
+
+.name-field {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.name-field span {
+	color: var(--muted);
+}
+
+.name-field input {
+	flex: 1;
+	padding: 6px 10px;
+	border: 1px solid var(--border);
+	border-radius: 6px;
+	font: inherit;
+}
+
+#tabs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	padding: 8px 16px 12px;
+	border-bottom: 1px solid var(--border);
+}
+
+.tab {
+	padding: 5px 10px;
+	border: 1px solid var(--border);
+	border-radius: 999px;
+	background: var(--panel);
+	color: var(--text);
+}
+
+.tab.active {
+	background: var(--accent);
+	border-color: var(--accent);
+	color: var(--accent-text);
+}
+
+#fields {
+	flex: 1;
+	overflow-y: auto;
+	padding: 12px 16px;
+}
+
+.field {
+	margin-bottom: 18px;
+}
+
+.field > label {
+	display: block;
+	margin-bottom: 6px;
+	color: var(--muted);
+	font-size: 13px;
+}
+
+.stepper {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.stepper span {
+	min-width: 70px;
+	text-align: center;
+	font-variant-numeric: tabular-nums;
+}
+
+.stepper button {
+	width: 40px;
+	height: 34px;
+	border: 1px solid var(--border);
+	border-radius: 6px;
+	background: var(--panel);
+	color: var(--text);
+}
+
+.choices {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+
+.chip {
+	min-width: 34px;
+	height: 34px;
+	padding: 0 10px;
+	border: 1px solid var(--border);
+	border-radius: 6px;
+	background: var(--panel);
+	color: var(--text);
+}
+
+.chip.color {
+	padding: 0;
+}
+
+.chip.active {
+	outline: 3px solid var(--accent);
+	outline-offset: 1px;
+}
+
+input[type="range"] {
+	width: 100%;
+	accent-color: var(--accent);
+}
+
+#editor footer {
+	display: flex;
+	gap: 8px;
+	padding: 12px 16px;
+	border-top: 1px solid var(--border);
+}
+
+#editor footer button {
+	flex: 1;
+}
+
+.primary,
+.secondary {
+	padding: 9px 14px;
+	border-radius: 8px;
+	border: 1px solid var(--accent);
+}
+
+.primary {
+	background: var(--accent);
+	color: var(--accent-text);
+}
+
+.secondary {
+	background: var(--panel);
+	color: var(--accent);
+}
+
+/* ---------- 3D viewport ---------- */
+
+#viewport {
+	position: relative;
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+}
+
+#viewport canvas {
+	display: block;
+}
+
+#hud {
+	position: absolute;
+	top: 12px;
+	left: 12px;
+	right: 12px;
+	display: none;
+	align-items: center;
+	gap: 16px;
+	padding: 8px 12px;
+	border-radius: 10px;
+	background: rgba(255, 255, 255, 0.85);
+}
+
+#app[data-mode="play"] #hud {
+	display: flex;
+}
+
+#hud-name {
+	font-weight: 600;
+}
+
+#hud .hint {
+	flex: 1;
+	color: var(--muted);
+	font-size: 13px;
+}
+
+#status {
+	position: absolute;
+	bottom: 16px;
+	left: 50%;
+	transform: translateX(-50%);
+	max-width: calc(100% - 32px);
+	padding: 8px 14px;
+	border-radius: 8px;
+	background: rgba(29, 35, 41, 0.85);
+	color: #fff;
+}
+
+#status.error {
+	background: #b3261e;
+}
+
+/* ---------- Small screens: editor stacks under the viewport ---------- */
+
+@media (max-width: 760px) {
+	#app {
+		flex-direction: column-reverse;
+	}
+
+	#editor {
+		width: 100%;
+		height: 55vh;
+		border-right: none;
+		border-top: 1px solid var(--border);
+	}
+
+	#hud .hint {
+		display: none;
+	}
+}

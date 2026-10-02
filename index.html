@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Dorm Sim — Mii Maker</title>
+	<link rel="icon" href="data:,">
+	<link rel="stylesheet" href="src/style.css">
+
+	<!-- FFL Emscripten module (defines globalThis.ModuleFFL; wasm is embedded). -->
+	<script src="vendor/ffljs/examples/ffl-emscripten-single-file.cjs"></script>
+	<script type="importmap">
+		{
+			"imports": {
+				"three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+				"three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+			}
+		}
+	</script>
+	<script type="module" src="src/main.js"></script>
+</head>
+<body>
+	<div id="app" data-mode="edit">
+		<aside id="editor">
+			<header>
+				<h1>Mii Maker</h1>
+				<label class="name-field">
+					<span>Name</span>
+					<input id="mii-name" type="text" maxlength="10" autocomplete="off" spellcheck="false">
+				</label>
+			</header>
+			<nav id="tabs" aria-label="Mii parts"></nav>
+			<section id="fields"></section>
+			<footer>
+				<button id="randomize" type="button" class="secondary">Randomize</button>
+				<button id="enter-world" type="button" class="primary">Enter world</button>
+			</footer>
+		</aside>
+
+		<main id="viewport">
+			<div id="hud">
+				<span id="hud-name"></span>
+				<span class="hint">Move with WASD / arrow keys · drag to look around</span>
+				<button id="edit-mii" type="button" class="secondary">Edit Mii</button>
+			</div>
+			<div id="status" role="status" hidden></div>
+		</main>
+	</div>
+</body>
+</html>

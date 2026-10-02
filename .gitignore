@@ -1,0 +1,4 @@
+# Downloaded by scripts/setup.sh (third-party code and Nintendo-owned assets)
+vendor/
+assets/
+.DS_Store
