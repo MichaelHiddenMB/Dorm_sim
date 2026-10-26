@@ -5,6 +5,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Dorm Sim — Mii Maker</title>
 	<link rel="icon" href="data:,">
+	<!-- Material Symbols for the adjustment arrows (only the glyphs we use). -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,0,0&icon_names=add,arrow_back,arrow_downward,arrow_forward,arrow_upward,chat_bubble,chevron_left,chevron_right,favorite,flip,music_note,person_add,pets,priority_high,remove,rotate_left,rotate_right,sentiment_very_satisfied,unfold_less,unfold_more,wb_sunny,zoom_in,zoom_out&display=block">
 	<link rel="stylesheet" href="src/style.css">
 
 	<!-- FFL Emscripten module (defines globalThis.ModuleFFL; wasm is embedded). -->
@@ -20,31 +22,51 @@
 	<script type="module" src="src/main.js"></script>
 </head>
 <body>
-	<div id="app" data-mode="edit">
-		<aside id="editor">
-			<header>
-				<h1>Mii Maker</h1>
-				<label class="name-field">
-					<span>Name</span>
-					<input id="mii-name" type="text" maxlength="10" autocomplete="off" spellcheck="false">
-				</label>
-			</header>
-			<nav id="tabs" aria-label="Mii parts"></nav>
-			<section id="fields"></section>
-			<footer>
-				<button id="randomize" type="button" class="secondary">Randomize</button>
-				<button id="enter-world" type="button" class="primary">Enter world</button>
-			</footer>
-		</aside>
-
+	<div id="app" data-mode="loading">
 		<main id="viewport">
-			<div id="hud">
-				<span id="hud-name"></span>
-				<span class="hint">Move with WASD / arrow keys · drag to look around</span>
-				<button id="edit-mii" type="button" class="secondary">Edit Mii</button>
+			<!-- Reaction bubbles above Miis' heads (positioned from main.js). -->
+			<div id="emotes"></div>
+			<!-- Hover menu shown above a Mii when you click it (positioned from main.js). -->
+			<div id="mii-menu" role="dialog" aria-labelledby="mii-menu-name" hidden>
+				<div id="mii-menu-name" class="mii-menu-name"></div>
+				<div class="mii-menu-actions">
+					<button id="mii-menu-look" type="button" class="mii-menu-btn"></button>
+					<button id="mii-menu-partner" type="button" class="mii-menu-btn"></button>
+				</div>
+			</div>
+			<button id="add-mii" type="button" class="round-btn" aria-label="New Mii" title="New Mii">
+				<span class="material-symbols-rounded" aria-hidden="true">person_add</span>
+			</button>
+			<div id="zoom-controls" role="group" aria-label="Zoom">
+				<button id="zoom-in" type="button" aria-label="Zoom in"><span class="material-symbols-rounded" aria-hidden="true">add</span></button>
+				<button id="zoom-out" type="button" aria-label="Zoom out"><span class="material-symbols-rounded" aria-hidden="true">remove</span></button>
 			</div>
 			<div id="status" role="status" hidden></div>
 		</main>
+
+		<section id="maker" class="panel" aria-label="Mii Maker">
+			<nav id="tabs" class="tabbar" aria-label="Mii parts"></nav>
+			<div id="subtabs" class="subbar"></div>
+			<div id="workspace" class="workspace"></div>
+			<footer>
+				<button id="randomize" type="button" class="secondary">Randomize</button>
+				<button id="maker-ok" type="button" class="primary">OK</button>
+			</footer>
+		</section>
+
+		<section id="partner" class="panel" aria-label="Choose a partner Pokémon">
+			<nav id="partner-tabs" class="tabbar" aria-label="Generations"></nav>
+			<div class="subbar partner-bar">
+				<input id="partner-search" type="search" placeholder="Search Pokémon" aria-label="Search Pokémon" autocomplete="off" spellcheck="false">
+				<button id="partner-none" type="button" class="subtab subtab-text">No partner</button>
+			</div>
+			<div id="partner-grid" class="workspace partner-workspace"></div>
+			<footer>
+				<button id="partner-back" type="button" class="secondary">Back</button>
+				<span id="partner-name" class="partner-name"></span>
+				<button id="partner-ok" type="button" class="primary">OK</button>
+			</footer>
+		</section>
 	</div>
 </body>
 </html>

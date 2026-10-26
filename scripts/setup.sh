@@ -53,4 +53,10 @@ for spec in \
 	fi
 done
 
-echo "Done. Start a server with: python3 -m http.server 8000"
+# Pokémon Rumble World follower models, from The Models Resource (~20 MB, resumable).
+python3 scripts/fetch_pokemon.py
+
+# World set pieces: Kenney kits (CC0), Poly Haven sky (CC0), three.js water normals (MIT).
+python3 scripts/fetch_world.py
+
+echo "Done. Start the site with: python3 scripts/serve.py"

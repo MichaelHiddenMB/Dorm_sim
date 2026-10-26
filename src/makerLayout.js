@@ -5,17 +5,19 @@ const range = n => Array.from({ length: n }, (_, i) => i);
 
 // Sprite sheet geometry, measured from the sheets that scripts/setup.sh downloads.
 // Cells are laid out left to right, top to bottom.
-const xActSheet = (file, w, h, y0) =>
-	({ url: `assets/ui/${file}.png`, w, h, x0: 1, y0, pitchX: 131, pitchY: 111, cw: 130, ch: 110, cols: 3 });
+// whiteArt: the sheet's icons are white on transparent (made for colored buttons),
+// so they get inverted to show on white tiles.
+const xActSheet = (file, w, h, y0, whiteArt = false) =>
+	({ url: `assets/ui/${file}.png`, w, h, x0: 1, y0, pitchX: 131, pitchY: 111, cw: 130, ch: 110, cols: 3, whiteArt });
 
 export const SHEETS = {
 	partIcons: { url: 'assets/ui/part-icons.png', w: 372, h: 433, x0: 3, y0: 3, pitchX: 123, pitchY: 115, cw: 120, ch: 112, cols: 3 },
 	gender: { url: 'assets/ui/gender.png', w: 183, h: 245, x0: 3, y0: 3, pitchX: 90, pitchY: 0, cw: 87, ch: 173, cols: 2 },
 	heads: xActSheet('heads', 394, 566, 122),
 	hair: xActSheet('hair', 394, 5006, 122),
-	eyebrows: xActSheet('eyebrows', 394, 1010, 122),
+	eyebrows: xActSheet('eyebrows', 394, 1010, 122, true),
 	eyes: xActSheet('eyes', 394, 2339, 119),
-	noses: xActSheet('noses', 394, 788, 122),
+	noses: xActSheet('noses', 394, 788, 122, true),
 	mouths: xActSheet('mouths', 394, 1454, 122),
 	facialHair: xActSheet('facial-hair', 394, 566, 122),
 	glasses: xActSheet('glasses', 394, 454, 121),
